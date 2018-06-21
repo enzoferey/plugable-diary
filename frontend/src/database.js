@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const insertEntry = text =>
+export const insertEntry = props =>
 	axios.post("http://localhost:8000/", {
-		text
+		...props
 	});

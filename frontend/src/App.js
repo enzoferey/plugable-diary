@@ -2,34 +2,46 @@ import React, { Component } from "react";
 import { insertEntry } from "./database";
 import "./App.css";
 
+import getDate from "./utils/getDate";
+
 class App extends Component {
   state = {
-    entry: ""
+    title: `Diary ${getDate()}`,
+    text: ""
   };
 
-  onChange = e => {
-    this.setState({ entry: e.target.value });
+  onChangeTitle = e => {
+    this.setState({ title: e.target.value });
+  };
+
+  onChangeText = e => {
+    this.setState({ text: e.target.value });
   };
 
   onClick = () => {
-    insertEntry(this.state.entry)
+    insertEntry({ ...this.state })
       .then(response => {
-        this.setState({ entry: "Saved !" });
+        this.setState({ text: "Saved !" });
       })
       .catch(error => {
-        this.setState({ entry: "Error happent" });
+        this.setState({ text: "Error happent" });
       });
   };
 
   render() {
+    const { title, text } = this.state;
+
     return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">plugable-diary</h1>
         </header>
+        <input value={title} onChange={this.onChangeTitle} type="text" />
+        <br />
+        <br />
         <textarea
-          value={this.state.entry}
-          onChange={this.onChange}
+          value={text}
+          onChange={this.onChangeText}
           cols="30"
           rows="10"
         />
