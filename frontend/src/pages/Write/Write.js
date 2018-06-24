@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React, { Fragment } from "react";
 import { insertEntry } from "@db";
 import getDate from "@utils/getDate";
 
 import style from "./write.scss";
-console.log(style);
 
-class Write extends Component {
+import Header from "@components/Header";
+
+class Write extends React.Component {
 	state = {
 		title: `Diary ${getDate()}`,
 		text: ""
@@ -33,24 +34,24 @@ class Write extends Component {
 		const { title, text } = this.state;
 
 		return (
-			<div className={style.main}>
-				<header className={style.header}>
-					<h1 className={style.title}>plugable-diary</h1>
-				</header>
-				<input value={title} onChange={this.onChangeTitle} type="text" />
-				<br />
-				<br />
-				<textarea
-					className={style.textarea}
-					value={text}
-					onChange={this.onChangeText}
-					cols="30"
-					rows="10"
-				/>
-				<br />
-				<br />
-				<button onClick={this.onClick}>Save</button>
-			</div>
+			<Fragment>
+				<Header />
+				<div className={style.main}>
+					<input value={title} onChange={this.onChangeTitle} type="text" />
+					<br />
+					<br />
+					<textarea
+						className={style.textarea}
+						value={text}
+						onChange={this.onChangeText}
+						cols="30"
+						rows="10"
+					/>
+					<br />
+					<br />
+					<button onClick={this.onClick}>Save</button>
+				</div>
+			</Fragment>
 		);
 	}
 }

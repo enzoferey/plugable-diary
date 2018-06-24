@@ -88,6 +88,7 @@ module.exports = {
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       "react-native": "react-native-web",
       "@components": path.resolve(__dirname, "../src/components/"),
+      "@contexts": path.resolve(__dirname, "../src/contexts/"),
       "@pages": path.resolve(__dirname, "../src/pages/"),
       "@utils": path.resolve(__dirname, "../src/utils/"),
       "@db": path.resolve(__dirname, "../src/database.js")
