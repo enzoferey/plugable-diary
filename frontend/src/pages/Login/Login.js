@@ -1,8 +1,8 @@
 import React from "react";
-import "./login.scss";
+import style from "./login.scss";
 
 const Login = () => (
-	<p className="login-component">Login</p>
+	<p className={style.main}>Login</p>
 );
 
 export default Login;

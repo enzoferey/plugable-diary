@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { insertEntry } from "../../database";
-import getDate from "../../utils/getDate";
+import { insertEntry } from "@db";
+import getDate from "@utils/getDate";
 
 import style from "./write.scss";
+console.log(style);
 
 class Write extends Component {
 	state = {
@@ -36,11 +37,7 @@ class Write extends Component {
 				<header className={style.header}>
 					<h1 className={style.title}>plugable-diary</h1>
 				</header>
-				<input
-					value={title}
-					onChange={this.onChangeTitle}
-					type="text"
-				/>
+				<input value={title} onChange={this.onChangeTitle} type="text" />
 				<br />
 				<br />
 				<textarea

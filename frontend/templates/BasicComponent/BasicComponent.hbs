@@ -1,8 +1,8 @@
 import React from "react";
-import "./{{lowerCase componentName}}.scss";
+import style from "./{{lowerCase componentName}}.scss";
 
 const {{componentName}} = () => (
-	<p className="{{lowerCase componentName}}-component">{{componentName}}</p>
+	<p className={style.main}>{{componentName}}</p>
 );
 
 export default {{componentName}};
