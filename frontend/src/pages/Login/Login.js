@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 
 import style from "./login.scss";
 
-import { login } from "@db";	
+import { login } from "@db";
 import Header from "@components/Header";
 import withAuth from "@contexts/withAuth";
 
@@ -13,27 +13,24 @@ class Login extends React.Component {
 		email: "",
 		password: "",
 		error: "",
-		redirectToReferrer: false,
 	};
 
 	onSubmit = e => {
-		const { email, password } = this.state;
 		e.preventDefault();
+
+		const { email, password } = this.state;
 		login({ email, password })
 			.then(response => {
 				const session = {
 					email,
 					token: response.data.data,
-				}
+				};
 
 				// Set data in global "store"
 				this.props.setSession(session);
 
 				// Save session in cookies
 				Cookies.set("session", JSON.stringify(session), { expires: 7 });
-
-				// Redirect
-				this.setState({ redirectToReferrer: true });
 			})
 			.catch(error => {
 				this.setState({ error: "Error happent" });
@@ -43,10 +40,10 @@ class Login extends React.Component {
 	onChangePassword = e => this.setState({ password: e.target.value });
 
 	render() {
-		const { email, password, error, redirectToReferrer } = this.state;
+		const { email, password, error } = this.state;
 		const { from } = this.props.location.state || { from: { pathname: "/" } };
 
-		if (redirectToReferrer || this.props.isAuthenticated) {
+		if (this.props.isAuthenticated) {
 			return <Redirect to={from} />;
 		}
 
@@ -75,7 +72,7 @@ class Login extends React.Component {
 						/>
 						<br />
 						<br />
-						{error !== "" && <span>{error}</span>}
+						{error !== "" && <span className={style.error}>{error}</span>}
 						<input type="submit" value="Login" />
 					</form>
 				</div>

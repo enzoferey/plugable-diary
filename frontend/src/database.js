@@ -8,6 +8,9 @@ export const login = props =>
 export const checkCookie = props =>
 	axios.get(baseUrl + "/cookie", { params: { ...props } });
 
+export const getEntries = props =>
+	axios.get(baseUrl + "/entries", { params: { ...props } });
+
 export const insertEntry = props =>
 	axios.post(baseUrl + "/entries", {
 		...props,

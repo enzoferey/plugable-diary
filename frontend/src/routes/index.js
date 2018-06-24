@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import { checkCookie } from "@db";
+import { checkCookie, getEntries } from "@db";
 import AuthContext from "@contexts/AuthContext";
 
 import Home from "@pages/Home";
@@ -16,7 +16,7 @@ import Write from "@pages/Write";
 
 import Spinner from "@components/Spinner";
 
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
+const PrivateRoute = ({ render: Component, isAuthenticated, ...rest }) => (
 	<Route
 		{...rest}
 		render={props =>
@@ -57,10 +57,8 @@ const getInitialSession = () => {
 class Routes extends React.Component {
 	state = {
 		session: getInitialSession(),
+		entries: [],
 	};
-
-	setSession = session => this.setState({ session: { ...session } });
-	removeSession = () => this.setState({ session: emptySession });
 
 	componentDidMount = () => {
 		const { checkingCookie, email, token } = this.state.session;
@@ -87,11 +85,36 @@ class Routes extends React.Component {
 		}
 	};
 
-	render() {
-		const { session } = this.state;
-		const isAuthenticated =
-			!session.checkingCookie && session.email !== "" && session.token !== null;
+	setSession = session => this.setState({ session: { ...session } });
+	removeSession = () => this.setState({ session: emptySession });
 
+	getEntries = () =>
+		getEntries({ email: this.state.session.email })
+			.then(result => this.setState({ entries: result.data.data }))
+			.catch(err => console.log(err));
+
+	checkAuthentication = () => {
+		const { checkingCookie, email, token } = this.state.session;
+		return !checkingCookie && email !== "" && token !== null;
+	}
+
+	renderHome = props => (
+		<Home
+			{...props}
+			entries={this.state.entries}
+			getEntries={this.getEntries}
+		/>
+	);
+
+	renderWrite = props => <Write {...props} />;
+
+	renderLogin = props => <Login {...props} isAuthenticated={this.checkAuthentication()} />;
+
+	render() {
+		console.log("Re render routes");
+		const { session, entries } = this.state;
+		const isAuthenticated = this.checkAuthentication();
+			
 		if (session.checkingCookie) return <Spinner />;
 
 		return (
@@ -107,20 +130,15 @@ class Routes extends React.Component {
 						<PrivateRoute
 							exact
 							path="/"
-							component={Home}
+							render={this.renderHome}
 							isAuthenticated={isAuthenticated}
 						/>
 						<PrivateRoute
 							path="/write"
-							component={Write}
+							render={this.renderWrite}
 							isAuthenticated={isAuthenticated}
 						/>
-						<Route
-							path="/login"
-							render={props => (
-								<Login {...props} isAuthenticated={isAuthenticated} />
-							)}
-						/>
+						<Route path="/login" render={this.renderLogin} />
 					</AuthContext.Provider>
 				</Switch>
 			</Router>
