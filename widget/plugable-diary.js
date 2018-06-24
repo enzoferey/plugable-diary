@@ -10,10 +10,10 @@ function httpGetAsync(theUrl, callback) {
 
 function init(config) {
 	function createEntriesAtId(data) {
-		createEntries(config.id, data);
+		createEntries(config.targetId, data);
 	}
 
-	httpGetAsync("http://localhost:8000/", createEntriesAtId);
+	httpGetAsync("http://localhost:8000/entries?email=" + config.email, createEntriesAtId);
 }
 
 function createEntries(id, data) {
