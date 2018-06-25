@@ -12,6 +12,7 @@ import AuthContext from "@contexts/AuthContext";
 
 import Home from "@pages/Home";
 import Login from "@pages/Login";
+import Register from "@pages/Register";
 import Write from "@pages/Write";
 
 import Spinner from "@components/Spinner";
@@ -110,8 +111,9 @@ class Routes extends React.Component {
 
 	renderLogin = props => <Login {...props} isAuthenticated={this.checkAuthentication()} />;
 
+	renderRegister = props => <Register {...props} isAuthenticated={this.checkAuthentication()} />;
+
 	render() {
-		console.log("Re render routes");
 		const { session, entries } = this.state;
 		const isAuthenticated = this.checkAuthentication();
 			
@@ -139,6 +141,7 @@ class Routes extends React.Component {
 							isAuthenticated={isAuthenticated}
 						/>
 						<Route path="/login" render={this.renderLogin} />
+						<Route path="/register" render={this.renderRegister} />
 					</AuthContext.Provider>
 				</Switch>
 			</Router>
