@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 
 import style from "./register.scss";
 
-import { login, register } from "@db";
+import { register } from "@db";
 import Header from "@components/Header";
 import withAuth from "@contexts/withAuth";
 

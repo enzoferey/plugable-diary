@@ -1,15 +1,21 @@
 import React, { Fragment } from "react";
 import { insertEntry } from "@db";
 import getDate from "@utils/getDate";
+import parseEmojis from "@utils/parseEmojis";
 
 import style from "./write.scss";
 
+import showdown from "showdown";
+
 import Header from "@components/Header";
+import WriteAndPreview from "@components/WriteAndPreview";
+
+const converter = new showdown.Converter();
 
 class Write extends React.Component {
 	state = {
 		title: `Diary ${getDate()}`,
-		text: ""
+		text: "",
 	};
 
 	onChangeTitle = e => {
@@ -17,7 +23,7 @@ class Write extends React.Component {
 	};
 
 	onChangeText = e => {
-		this.setState({ text: e.target.value });
+		this.setState({ text: parseEmojis(e.target.value) });
 	};
 
 	onClick = () => {
@@ -40,13 +46,13 @@ class Write extends React.Component {
 					<input value={title} onChange={this.onChangeTitle} type="text" />
 					<br />
 					<br />
-					<textarea
-						className={style.textarea}
-						value={text}
-						onChange={this.onChangeText}
-						cols="30"
-						rows="10"
-					/>
+					<div style={{ width: "80%", margin: "0 auto" }}>
+						<WriteAndPreview
+							value={text}
+							onChange={this.onChangeText}
+							transform={text => converter.makeHtml(text)}
+						/>
+					</div>
 					<br />
 					<br />
 					<button onClick={this.onClick}>Save</button>
