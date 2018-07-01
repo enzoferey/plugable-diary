@@ -18,19 +18,24 @@ module.exports = function(plop) {
 			{
 				type: "add",
 				path: "{{path}}/{{componentName}}/{{componentName}}.js",
-				templateFile: "templates/BasicComponent/BasicComponent.hbs"
+				templateFile: "templates/BasicComponent/BasicComponent.js.hbs"
 			},
 			{
 				type: "add",
 				path:
 					"{{path}}/{{componentName}}/{{lowerCase componentName}}.scss",
-				templateFile: "templates/BasicComponent/BasicComponent.scss"
+				templateFile: "templates/BasicComponent/BasicComponent.scss.hbs"
+			},
+			{
+				type: "add",
+				path: "{{path}}/{{componentName}}/{{componentName}}.test.js",
+				templateFile: "templates/BasicComponent/BasicComponent.test.js.hbs"
 			},
 			{
 				type: "add",
 				path:
 					"{{path}}/{{componentName}}/index.js",
-				templateFile: "templates/export.hbs"
+				templateFile: "templates/export.js.hbs"
 			}
 		]
 	});
